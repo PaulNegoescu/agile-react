@@ -1,0 +1,12 @@
+.counter-display {
+    font-size: 4rem;
+    display: block;
+    margin-left: 25px;
+}
+
+.counter-button {
+    padding: 0.3rem;
+    font-family: monospace;
+    font-size: 1.5rem;
+    margin: 10px;
+}
