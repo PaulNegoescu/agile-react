@@ -21,7 +21,7 @@ export default function GamesList() {
         <>
             <h1>Games</h1>
             <dl>
-                { games.map(item => <Game game={item} />) }
+                { games.map(item => <Game key={item._id} game={item} />) }
             </dl>
         </>
     );
