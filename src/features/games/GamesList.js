@@ -1,24 +1,24 @@
-import React, { useState, useEffect } from 'react';
+import React, { useContext } from 'react';
 import Game from './Game';
+import useApi from '../../hooks/useApi';
+import Error from '../../components/Error/Error';
+import ErrorContext from '../../components/Error/ErrorContext';
 
 export default function GamesList() {
-    const [games, setGames] = useState([]);
+    const [games, error, triggerReload] = useApi('games');
+    const { message } = useContext(ErrorContext)
 
-    useEffect(() => {
-        async function getGames() {
-            const data = await fetch('https://games-app-siit.herokuapp.com/games').then(res => res.json());
-            setGames(data);
-        }
-
-        getGames();
-    }, []);
+    if(error) {
+        return <Error message={ error } onReloadClicked={ triggerReload } />
+    }
     
-    if(!games.length) {
-        return 'Loading ...';
+    if(!games) {
+        return <h1>Loading ...</h1>;
     }
 
     return (
         <>
+            {message}
             <h1>Games</h1>
             <dl>
                 { games.map(item => <Game key={item._id} game={item} />) }

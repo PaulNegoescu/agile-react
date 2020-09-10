@@ -1,22 +1,21 @@
-import React, { useEffect, useState } from 'react'
-import { useParams, Link } from 'react-router-dom'
+import React from 'react'
+import { useParams } from 'react-router-dom'
+import useApi from '../../hooks/useApi';
+import Error from '../../components/Error/Error';
 
 export default function GameDetails() {
     const { gameId } = useParams();
-    const [game, setGame] = useState(null)
+    const [ game, error ] = useApi(`games/${gameId}`);
 
-    useEffect(() => {
-        async function getGame() {
-            const data = await fetch(`https://games-app-siit.herokuapp.com/games/${gameId}`).then(res => res.json());
-            setGame(data);
-        }
-
-        getGame();
-    }, [gameId]);
+    if(error) {
+        return <Error message={ error } />
+    }
 
     if(!game) {
         return <h1>Loading ...</h1>;
     }
+
+    console.log({game})
 
     return (
         <div>
