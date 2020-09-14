@@ -1,20 +1,19 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 import Navbar from './Navbar';
 import GamesList from '../features/games/GamesList';
 import GameDetails from '../features/games/GameDetails';
-
-import ErrorContext from './Error/ErrorContext';
+import ErrorContextProvider from './Error/ErrorContext';
+import Error from './Error/Error';
 
 import 'bootstrap/dist/css/bootstrap.css';
 
-function App(test) {
-  const [message, setMessage] = useState('')
- 
+function App(test) { 
   return (
     <div className="container">
-      <ErrorContext.Provider value={ {message, setMessage} }>
+      <ErrorContextProvider>
+        <Error />
         <Router>
           <Navbar />
           <Switch>
@@ -24,7 +23,7 @@ function App(test) {
             <Route component={() => <h1>404</h1>} />
           </Switch>
         </Router>
-      </ErrorContext.Provider>
+      </ErrorContextProvider>
     </div>
   );
 }

@@ -1,16 +1,16 @@
 import React, { useContext } from 'react';
 import Game from './Game';
 import useApi from '../../hooks/useApi';
-import Error from '../../components/Error/Error';
-import ErrorContext from '../../components/Error/ErrorContext';
+// import Error from '../../components/Error/Error';
+import { ErrorContext } from '../../components/Error/ErrorContext';
 
 export default function GamesList() {
-    const [games, error, triggerReload] = useApi('games');
+    const [games] = useApi('games');
     const { message } = useContext(ErrorContext)
 
-    if(error) {
-        return <Error message={ error } onReloadClicked={ triggerReload } />
-    }
+    // if(error) {
+    //     return <Error message={ error } onReloadClicked={ triggerReload } />
+    // }
     
     if(!games) {
         return <h1>Loading ...</h1>;

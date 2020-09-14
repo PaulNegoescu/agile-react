@@ -1,6 +1,6 @@
-import React, { useEffect, useContext } from 'react'
+import React, { useContext } from 'react'
 import { Link } from 'react-router-dom';
-import ErrorContext from '../../components/Error/ErrorContext';
+import { ErrorContext } from '../../components/Error/ErrorContext';
 
 export default function Game({ game }) {
     // const { game } = props;
@@ -8,7 +8,7 @@ export default function Game({ game }) {
     const { setMessage } = useContext(ErrorContext)
 
     const handleClick = () => {
-        setMessage('Testing out the Context');
+        setMessage('Testing out the Context: ' + game.title);
     };
 
     return (

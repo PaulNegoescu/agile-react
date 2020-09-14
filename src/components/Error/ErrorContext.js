@@ -1,8 +1,21 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 const ErrorContext = React.createContext({
-    message: '',
-    setMessage() {}
+    message: ''
 });
 
-export default ErrorContext;
+
+export default function ErrorContextProvider({ children }) {
+    const [message, setMessage] = useState('');
+    
+    return (
+        <ErrorContext.Provider value={ {message, setMessage} }>
+            { children }
+        </ErrorContext.Provider>
+    )
+}
+
+
+export {
+    ErrorContext
+};
