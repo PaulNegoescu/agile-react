@@ -66,3 +66,28 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/de
 ### `npm run build` fails to minify
 
 This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+
+
+# Echipe proiect final
+
+## Bogdan - Google Books (stabilim date de contact)
+- Bogdan
+- Timea
+- Mihai
+
+## Alin - Plant Manager (ok)
+- Alin
+- Gabriel
+- Adina
+
+## Ana-Maria - Maistru.ro (ok)
+- Ana-Maria
+- Roxana
+- Claudia
+
+## Alex - Food Koala (stabilim date contact)
+- Alex
+- Sandor
+- George
+
+## Cosmin, Andra si Tudor ?
