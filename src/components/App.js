@@ -11,6 +11,7 @@ import LoginRegister from '../features/auth/LoginRegister';
 
 import 'bootstrap/dist/css/bootstrap.css';
 import { AuthContextProvider } from '../features/auth/AuthContext';
+import Todos from '../features/todos/Todos';
 
 const firebaseConfig = {
   apiKey: "AIzaSyBgeVpl29Y5wridfJAt8YE56XFE7YdQkJc",
@@ -37,6 +38,7 @@ function App(test) {
           <Switch>
             <Route exact path="/games" component={GamesList} />
             <Route exact path="/games/:gameId" component={GameDetails} />
+            <Route exact path="/todos" component={Todos} />
             <Route exact path="/login" component={LoginRegister} />
             <Route exact path="/register" component={LoginRegister} />
             <Route exact path="/" component={() => <h1>Homepage</h1>} />

@@ -30,6 +30,9 @@ export default function Navbar() {
                     <li className="nav-item">
                         <SrNavLink className="nav-link" to="/games">Games</SrNavLink>
                     </li>
+                    <li className="nav-item">
+                        <SrNavLink className="nav-link" to="/todos">Todos</SrNavLink>
+                    </li>
                 </ul>
                 <ul className="navbar-nav">
                     {!isAuthenticated ? (
