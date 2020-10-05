@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import * as firebase from 'firebase/app';
 import 'firebase/firestore';
+import 'firebase/storage';
 
 import { useForm } from '../../hooks';
 import { AuthContext } from '../auth/AuthContext';
@@ -10,6 +11,7 @@ const initialFormValues = {todo: ''};
 
 export default function Todos() {
     const [todos, setTodos] = useState([]);
+    const [file, setFile] = useState(null);
     const { bindInput, values } = useForm(initialFormValues);
     const { user } = useContext(AuthContext);
     const db = firebase.firestore();
@@ -30,20 +32,7 @@ export default function Todos() {
         }     
     }, [db, user]);
 
-    async function handleClick() {
-        try {
-            const docRef = await db.collection("todos").add({
-                title: values.todo,
-                status: 'NOT_COMPLETED',
-                user: user.uid,
-            });
-            
-            console.log("Document written with ID: ", docRef.id);
-        } catch(error) {
-            console.warn("Error adding document: ", error);
-        };
-    }
-
+    
     async function handleChange(todoId) {
         const todo = todos.find(todo => todo.id === todoId);
         const todoRef = db.collection("todos").doc(todoId);
@@ -54,22 +43,58 @@ export default function Todos() {
             await todoRef.update({
                 status: todo.status
             });
-
+            
             console.log("Document successfully updated!");
         } catch(error) {
             // The document probably doesn't exist.
             console.warn("Error updating document: ", error);
         };
-
+        
         setTodos([...todos]);
+    }
+    
+    async function handleSubmit(e) {
+        e.preventDefault();
+        try {
+            const storage = firebase.storage().ref();
+
+            const upload = storage.child(`images/${file.name}`);
+            const snapshot = await upload.put(file)
+            const fileUrl = await snapshot.ref.getDownloadURL();
+
+            const docRef = await db.collection("todos").add({
+                title: values.todo,
+                status: 'NOT_COMPLETED',
+                user: user.uid,
+                fileUrl
+            });
+            
+            console.log("Document written with ID: ", docRef.id);
+        } catch(error) {
+            console.warn("Error adding document: ", error);
+        };
+    }
+
+    function handleFile(e) {
+        setFile(e.target.files[0]);
     }
 
     return (
         <div>
-            <h1>Todos</h1>
-            <div >
-                <input className="form-control" {...bindInput('todo')} />
-                <button className="btn btn-primary" onClick={handleClick}>Add Todo</button>
+            <div className="jumbotron jumbotron-fluid">
+                <div className="container">
+                    <h1 className="display-4">Todos</h1>
+                    <form onSubmit={handleSubmit}>
+                        <div className="form-group">
+                            <input className="form-control" {...bindInput('todo')} />
+                        </div>
+                        <div className="form-group">
+                            <input type="file" className="" id="customFile" onChange={ handleFile } />
+                            {/* <label class="custom-file-label" for="customFile">Choose file</label> */}
+                        </div>
+                        <button className="btn btn-primary">Add Todo</button>
+                    </form>
+                </div>
             </div>
             <br />
             { todos.map(todo => (
@@ -77,6 +102,7 @@ export default function Todos() {
                     <label>
                         <input type="checkbox" checked={ todo.status === 'COMPLETED' } onChange={ () => handleChange(todo.id) } />
                         { todo.title }
+                        <img src={todo.fileUrl} alt="Todo" />
                     </label>
                 </p>
             )) }
