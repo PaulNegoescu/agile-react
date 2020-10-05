@@ -1,12 +1,13 @@
 import { useState, useEffect } from "react";
 
-const baseUrl = 'https://games-app-siit.herokuapp.com';
+let baseUrl = 'https://games-app-siit.herokuapp.com';
 
 export default function useApi(endpoint, options) {
     const [data, setData] = useState(null);
     const [error, setError] = useState(null);
     const [fetchOptions, setFetchOptions] = useState(options);
     const [shouldReload, setShouldReload] = useState(1);
+    baseUrl = options?.baseUrl ?? baseUrl;
 
     function triggerReload() {
         setShouldReload(Math.random());

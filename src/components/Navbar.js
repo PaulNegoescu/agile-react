@@ -4,9 +4,11 @@ import * as firebase from "firebase/app";
 import "firebase/auth"; 
 
 import { AuthContext } from '../features/auth/AuthContext';
+import { AuthContext as AuthContextClassic } from '../features/auth-classic/AuthContext';
 
 export default function Navbar() {
     const { isAuthenticated, user } = useContext(AuthContext);
+    const { isAuthenticated: isAuthenticatedClassic, userName, onLogout } = useContext(AuthContextClassic);
 
     async function handleLogout(e) {
         e.preventDefault();
@@ -51,6 +53,27 @@ export default function Navbar() {
                             </li>
                             <li className="nav-item">
                                 <a href="/" onClick={handleLogout}>Logout</a>
+                            </li>
+                        </>
+                    )}
+                </ul>
+                <ul className="navbar-nav">
+                    {!isAuthenticatedClassic ? (
+                        <>
+                            <li className="nav-item">
+                                <SrNavLink className="nav-link" to="/login-classic">Classic Login</SrNavLink>
+                            </li>
+                            <li className="nav-item">
+                                <SrNavLink className="nav-link" to="/register-classic">Classic Register</SrNavLink>
+                            </li>
+                        </>
+                    ) : (
+                        <>
+                            <li className="nav-item">
+                                Welcome, {userName}!
+                            </li>
+                            <li className="nav-item">
+                                <a href="/" onClick={(e) => {e.preventDefault(); onLogout() }}>Logout</a>
                             </li>
                         </>
                     )}
